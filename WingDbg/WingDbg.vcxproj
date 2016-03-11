@@ -161,6 +161,9 @@
   <ItemGroup>
     <ClCompile Include="Exceptions.cpp" />
     <ClCompile Include="Exports.cpp" />
+    <ClCompile Include="RegFixHooks.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="RegFixHelper.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -176,6 +179,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Exceptions.hpp" />
+    <ClInclude Include="RegFixHooks.h" />
     <ClInclude Include="RegFixHelper.h" />
     <ClInclude Include="RegFix.hpp" />
     <ClInclude Include="StdAfx.hpp" />

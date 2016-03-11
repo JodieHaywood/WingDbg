@@ -39,6 +39,9 @@
     <ClCompile Include="RegFixHelper.c">
       <Filter>Extensions\RegFix</Filter>
     </ClCompile>
+    <ClCompile Include="RegFixHooks.c">
+      <Filter>Extensions\RegFix</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Exports.def">
@@ -60,6 +63,9 @@
       <Filter>Extensions\RegFix</Filter>
     </ClInclude>
     <ClInclude Include="RegFixHelper.h">
+      <Filter>Extensions\RegFix</Filter>
+    </ClInclude>
+    <ClInclude Include="RegFixHooks.h">
       <Filter>Extensions\RegFix</Filter>
     </ClInclude>
   </ItemGroup>

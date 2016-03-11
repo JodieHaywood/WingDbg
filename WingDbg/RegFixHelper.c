@@ -4,6 +4,7 @@
 
 #include <assert.h>
 
+#include "RegFixHooks.h"
 #include "RegFixHelper.h"
 
 
@@ -29,197 +30,8 @@
 
 
 //
-// Enums
-//
-
-typedef enum _HOOK_INDEX
-{
-	HOOK_INDEX_GET_VALUE = 0,
-	HOOK_INDEX_GET_VALUES,
-	HOOK_INDEX_SET_VALUE,
-	HOOK_INDEX_SET_VALUES,
-	HOOK_INDEX_GET_VALUES2,
-	HOOK_INDEX_SET_VALUES2,
-
-	// Must be last:
-	HOOKS_COUNT
-} HOOK_INDEX, *PHOOK_INDEX;
-
-
-//
-// Globals
-//
-
-static FARPROC g_apfnOriginalFunctions[HOOKS_COUNT] = { NULL };
-
-
-//
 // Functions
 //
-
-typedef HRESULT(__stdcall * PFN_GETVALUE)(
-	_Inout_	IDebugRegisters2 *	piThis,
-	_In_	ULONG				nRegister,
-	_Out_	PDEBUG_VALUE		ptValue
-	);
-static HRESULT __stdcall regfixhelper_GetValueHook(
-	_Inout_	IDebugRegisters2 *	piThis,
-	_In_	ULONG				nRegister,
-	_Out_	PDEBUG_VALUE		ptValue
-	)
-{
-	HRESULT			hrResult	= E_FAIL;
-	PFN_GETVALUE	pfnGetValue	= NULL;
-
-	pfnGetValue = (PFN_GETVALUE)(g_apfnOriginalFunctions[HOOK_INDEX_GET_VALUE]);
-
-	hrResult = pfnGetValue(piThis, nRegister, ptValue);
-
-	// Keep last status
-
-//lblCleanup:
-	return hrResult;
-}
-
-typedef HRESULT(__stdcall * PFN_GETVALUES)(
-	_Inout_					IDebugRegisters2 *	piThis,
-	_In_					ULONG				nCount,
-	_In_opt_count_(nCount)	PULONG				pnIndices,
-	_In_					ULONG				nStartIndex,
-	_Out_writes_(nCount)	PDEBUG_VALUE		ptValues
-	);
-static HRESULT __stdcall regfixhelper_GetValuesHook(
-	_Inout_					IDebugRegisters2 *	piThis,
-	_In_					ULONG				nCount,
-	_In_opt_count_(nCount)	PULONG				pnIndices,
-	_In_					ULONG				nStartIndex,
-	_Out_writes_(nCount)	PDEBUG_VALUE		ptValues
-	)
-{
-	HRESULT			hrResult		= E_FAIL;
-	PFN_GETVALUES	pfnGetValues	= NULL;
-
-	pfnGetValues = (PFN_GETVALUES)(g_apfnOriginalFunctions[HOOK_INDEX_GET_VALUES]);
-
-	hrResult = pfnGetValues(piThis, nCount, pnIndices, nStartIndex, ptValues);
-
-	// Keep last status
-
-//lblCleanup:
-	return hrResult;
-}
-
-typedef HRESULT(__stdcall * PFN_SETVALUE)(
-	_Inout_	IDebugRegisters2 *	piThis,
-	_In_	ULONG				nRegister,
-	_In_	PDEBUG_VALUE		ptValue
-	);
-static HRESULT __stdcall regfixhelper_SetValueHook(
-	_Inout_	IDebugRegisters2 *	piThis,
-	_In_	ULONG				nRegister,
-	_In_	PDEBUG_VALUE		ptValue
-	)
-{
-	HRESULT			hrResult	= E_FAIL;
-	PFN_SETVALUE	pfnSetValue	= NULL;
-
-	pfnSetValue = (PFN_SETVALUE)(g_apfnOriginalFunctions[HOOK_INDEX_SET_VALUE]);
-
-	hrResult = pfnSetValue(piThis, nRegister, ptValue);
-
-	// Keep last status
-
-//lblCleanup:
-	return hrResult;
-}
-
-typedef HRESULT(__stdcall * PFN_SETVALUES)(
-	_Inout_					IDebugRegisters2 *	piThis,
-	_In_					ULONG				nCount,
-	_In_opt_count_(nCount)	PULONG				pnIndices,
-	_In_					ULONG				nStartIndex,
-	_In_reads_(nCount)		PDEBUG_VALUE		ptValues
-	);
-static HRESULT __stdcall regfixhelper_SetValuesHook(
-	_Inout_					IDebugRegisters2 *	piThis,
-	_In_					ULONG				nCount,
-	_In_opt_count_(nCount)	PULONG				pnIndices,
-	_In_					ULONG				nStartIndex,
-	_In_reads_(nCount)		PDEBUG_VALUE		ptValues
-	)
-{
-	HRESULT			hrResult		= E_FAIL;
-	PFN_SETVALUES	pfnSetValues	= NULL;
-
-	pfnSetValues = (PFN_SETVALUES)(g_apfnOriginalFunctions[HOOK_INDEX_SET_VALUES]);
-
-	hrResult = pfnSetValues(piThis, nCount, pnIndices, nStartIndex, ptValues);
-
-	// Keep last status
-
-//lblCleanup:
-	return hrResult;
-}
-
-typedef HRESULT(__stdcall * PFN_GETVALUES2)(
-	_Inout_					IDebugRegisters2 *	piThis,
-	_In_					ULONG				eSource,
-	_In_					ULONG				nCount,
-	_In_opt_count_(nCount)	PULONG				pnIndices,
-	_In_					ULONG				nStartIndex,
-	_Out_writes_(nCount)	PDEBUG_VALUE		ptValues
-	);
-static HRESULT __stdcall regfixhelper_GetValues2Hook(
-	_Inout_					IDebugRegisters2 *	piThis,
-	_In_					ULONG				eSource,
-	_In_					ULONG				nCount,
-	_In_opt_count_(nCount)	PULONG				pnIndices,
-	_In_					ULONG				nStartIndex,
-	_Out_writes_(nCount)	PDEBUG_VALUE		ptValues
-	)
-{
-	HRESULT			hrResult		= E_FAIL;
-	PFN_GETVALUES2	pfnGetValues2	= NULL;
-
-	pfnGetValues2 = (PFN_GETVALUES2)(g_apfnOriginalFunctions[HOOK_INDEX_GET_VALUES2]);
-
-	hrResult = pfnGetValues2(piThis, eSource, nCount, pnIndices, nStartIndex, ptValues);
-
-	// Keep last status
-
-//lblCleanup:
-	return hrResult;
-}
-
-typedef HRESULT(__stdcall * PFN_SETVALUES2)(
-	_Inout_					IDebugRegisters2 *	piThis,
-	_In_					ULONG				eSource,
-	_In_					ULONG				nCount,
-	_In_opt_count_(nCount)	PULONG				pnIndices,
-	_In_					ULONG				nStartIndex,
-	_In_reads_(nCount)		PDEBUG_VALUE		ptValues
-	);
-static HRESULT __stdcall regfixhelper_SetValues2Hook(
-	_Inout_					IDebugRegisters2 *	piThis,
-	_In_					ULONG				eSource,
-	_In_					ULONG				nCount,
-	_In_opt_count_(nCount)	PULONG				pnIndices,
-	_In_					ULONG				nStartIndex,
-	_In_reads_(nCount)		PDEBUG_VALUE		ptValues
-	)
-{
-	HRESULT			hrResult		= E_FAIL;
-	PFN_SETVALUES2	pfnSetValues2	= NULL;
-
-	pfnSetValues2 = (PFN_SETVALUES2)(g_apfnOriginalFunctions[HOOK_INDEX_SET_VALUES2]);
-
-	hrResult = pfnSetValues2(piThis, eSource, nCount, pnIndices, nStartIndex, ptValues);
-
-	// Keep last status
-
-//lblCleanup:
-	return hrResult;
-}
 
 static HRESULT regfixhelper_ObtainInterface(
 	_In_			IDebugClient *		piClient,
@@ -285,27 +97,27 @@ static VOID regfixhelper_InitializeDescriptors(
 {
 	// GetValue
 	ptDescriptors[HOOK_INDEX_GET_VALUE].pfnFunctionToHook = (FARPROC)(piDebugRegisters2->lpVtbl->GetValue);
-	ptDescriptors[HOOK_INDEX_GET_VALUE].pfnHookFunction = (FARPROC)&regfixhelper_GetValueHook;
+	ptDescriptors[HOOK_INDEX_GET_VALUE].pfnHookFunction = (FARPROC)&REGFIXHOOKS_GetValueHook;
 
 	// GetValues
 	ptDescriptors[HOOK_INDEX_GET_VALUES].pfnFunctionToHook = (FARPROC)(piDebugRegisters2->lpVtbl->GetValues);
-	ptDescriptors[HOOK_INDEX_GET_VALUES].pfnHookFunction = (FARPROC)&regfixhelper_GetValuesHook;
+	ptDescriptors[HOOK_INDEX_GET_VALUES].pfnHookFunction = (FARPROC)&REGFIXHOOKS_GetValuesHook;
 
 	// SetValue
 	ptDescriptors[HOOK_INDEX_SET_VALUE].pfnFunctionToHook = (FARPROC)(piDebugRegisters2->lpVtbl->SetValue);
-	ptDescriptors[HOOK_INDEX_SET_VALUE].pfnHookFunction = (FARPROC)&regfixhelper_SetValueHook;
+	ptDescriptors[HOOK_INDEX_SET_VALUE].pfnHookFunction = (FARPROC)&REGFIXHOOKS_SetValueHook;
 
 	// SetValues
 	ptDescriptors[HOOK_INDEX_SET_VALUES].pfnFunctionToHook = (FARPROC)(piDebugRegisters2->lpVtbl->SetValues);
-	ptDescriptors[HOOK_INDEX_SET_VALUES].pfnHookFunction = (FARPROC)&regfixhelper_SetValuesHook;
+	ptDescriptors[HOOK_INDEX_SET_VALUES].pfnHookFunction = (FARPROC)&REGFIXHOOKS_SetValuesHook;
 
 	// GetValues2
 	ptDescriptors[HOOK_INDEX_GET_VALUES2].pfnFunctionToHook = (FARPROC)(piDebugRegisters2->lpVtbl->GetValues2);
-	ptDescriptors[HOOK_INDEX_GET_VALUES2].pfnHookFunction = (FARPROC)&regfixhelper_GetValues2Hook;
+	ptDescriptors[HOOK_INDEX_GET_VALUES2].pfnHookFunction = (FARPROC)&REGFIXHOOKS_GetValues2Hook;
 
 	// SetValues2
 	ptDescriptors[HOOK_INDEX_SET_VALUES2].pfnFunctionToHook = (FARPROC)(piDebugRegisters2->lpVtbl->SetValues2);
-	ptDescriptors[HOOK_INDEX_SET_VALUES2].pfnHookFunction = (FARPROC)&regfixhelper_SetValues2Hook;
+	ptDescriptors[HOOK_INDEX_SET_VALUES2].pfnHookFunction = (FARPROC)&REGFIXHOOKS_SetValues2Hook;
 }
 
 HRESULT REGFIXHELPER_Prepare(
