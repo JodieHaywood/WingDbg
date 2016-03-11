@@ -12,6 +12,10 @@
 #include <string>
 #include <sstream>
 #include <memory>
+#include <mutex>
+#include <vector>
 
 #include <boost/exception/all.hpp>
 #include <boost/algorithm/string.hpp>
+
+#include <NktHookLib.h>

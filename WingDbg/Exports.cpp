@@ -1,6 +1,7 @@
 #include "StdAfx.hpp"
 
 #include "Utils.hpp"
+#include "RegFix.hpp"
 
 
 HRESULT CALLBACK DebugExtensionInitialize(
@@ -25,8 +26,17 @@ HRESULT CALLBACK regfix(
 	_In_opt_	PCSTR			pszArgs
 	)
 {
-	UNREFERENCED_PARAMETER(piClient);
 	UNREFERENCED_PARAMETER(pszArgs);
+
+	try
+	{
+		WingDbg::Extensions::RegFix(piClient, pszArgs);
+	}
+	catch (...)
+	{
+		WingDbg::Utils::OutputString(piClient, DEBUG_OUTPUT_ERROR, boost::current_exception_diagnostic_information().c_str());
+		return E_FAIL;
+	}
 
 	return S_OK;
 }

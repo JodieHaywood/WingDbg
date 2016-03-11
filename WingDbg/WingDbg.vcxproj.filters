@@ -13,6 +13,12 @@
     <Filter Include="PCH">
       <UniqueIdentifier>{faa2a103-143a-490c-ad0d-7d73c73c27d0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Extensions">
+      <UniqueIdentifier>{056d14e0-94f6-4479-80cc-eb2e560d2a40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Extensions\RegFix">
+      <UniqueIdentifier>{ced99964-ddef-4213-866b-0372c5f7e4b0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Exports.cpp">
@@ -26,6 +32,12 @@
     </ClCompile>
     <ClCompile Include="StdAfx.cpp">
       <Filter>PCH</Filter>
+    </ClCompile>
+    <ClCompile Include="RegFix.cpp">
+      <Filter>Extensions\RegFix</Filter>
+    </ClCompile>
+    <ClCompile Include="RegFixHelper.c">
+      <Filter>Extensions\RegFix</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -43,6 +55,12 @@
     </ClInclude>
     <ClInclude Include="StdAfx.hpp">
       <Filter>PCH</Filter>
+    </ClInclude>
+    <ClInclude Include="RegFix.hpp">
+      <Filter>Extensions\RegFix</Filter>
+    </ClInclude>
+    <ClInclude Include="RegFixHelper.h">
+      <Filter>Extensions\RegFix</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
