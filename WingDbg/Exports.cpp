@@ -34,7 +34,9 @@ HRESULT CALLBACK regfix(
 	}
 	catch (...)
 	{
-		::UTILS_OutputString(piClient, DEBUG_OUTPUT_ERROR, boost::current_exception_diagnostic_information().c_str());
+		(void)::UTILS_OutputString(piClient,
+								   DEBUG_OUTPUT_ERROR,
+								   boost::current_exception_diagnostic_information().c_str());
 		return E_FAIL;
 	}
 

@@ -6,6 +6,9 @@
 #include "RegFixHelper.h"
 
 
+namespace po = boost::program_options;
+
+
 namespace WingDbg {
 namespace Extensions {
 
@@ -69,6 +72,19 @@ public:
 		hooked_ = true;
 	}
 
+	void Unhook()
+	{
+		std::lock_guard<std::mutex> lock(guard_);
+
+		if (!hooked_)
+		{
+			THROW_COM_EXCEPTION(E_UNEXPECTED);
+		}
+
+		hook_manager_.UnhookAll();
+		hooked_ = false;
+	}
+
 private:
 	RegFixGlobals() :
 		hooked_(false)
@@ -85,7 +101,29 @@ private:
 
 void RegFix(CComPtr<IDebugClient> client, const std::string & arguments)
 {
-	UNREFERENCED_PARAMETER(arguments);
+	po::options_description desc("Allowed options");
+	desc.add_options()
+		("help,h", "show this help message")
+		("unhook,u", "uninstall all hooks")
+		;
+
+	po::variables_map vm;
+	po::store(po::command_line_parser(po::split_winmain(arguments)).options(desc).run(), vm);
+	po::notify(vm);
+
+	if (vm.count("help"))
+	{
+		std::ostringstream help_message;
+		desc.print(help_message);
+		(void)::UTILS_OutputString(client, DEBUG_OUTPUT_NORMAL, help_message.str().c_str());
+		return;
+	}
+
+	if (vm.count("unhook"))
+	{
+		RegFixGlobals::GetInstance().Unhook();
+		return;
+	}
 
 	RegFixGlobals::GetInstance().Hook(client);
 }
