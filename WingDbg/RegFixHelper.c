@@ -84,10 +84,7 @@ static VOID regfixhelper_InitializeGlobalState(
 {
 	g_apfnOriginalFunctions[HOOK_INDEX_GET_VALUE] = (FARPROC)(piDebugRegisters2->lpVtbl->GetValue);
 	g_apfnOriginalFunctions[HOOK_INDEX_GET_VALUES] = (FARPROC)(piDebugRegisters2->lpVtbl->GetValues);
-	g_apfnOriginalFunctions[HOOK_INDEX_SET_VALUE] = (FARPROC)(piDebugRegisters2->lpVtbl->SetValue);
-	g_apfnOriginalFunctions[HOOK_INDEX_SET_VALUES] = (FARPROC)(piDebugRegisters2->lpVtbl->SetValues);
 	g_apfnOriginalFunctions[HOOK_INDEX_GET_VALUES2] = (FARPROC)(piDebugRegisters2->lpVtbl->GetValues2);
-	g_apfnOriginalFunctions[HOOK_INDEX_SET_VALUES2] = (FARPROC)(piDebugRegisters2->lpVtbl->SetValues2);
 }
 
 static VOID regfixhelper_InitializeDescriptors(
@@ -103,21 +100,9 @@ static VOID regfixhelper_InitializeDescriptors(
 	ptDescriptors[HOOK_INDEX_GET_VALUES].pfnFunctionToHook = (FARPROC)(piDebugRegisters2->lpVtbl->GetValues);
 	ptDescriptors[HOOK_INDEX_GET_VALUES].pfnHookFunction = (FARPROC)&REGFIXHOOKS_GetValuesHook;
 
-	// SetValue
-	ptDescriptors[HOOK_INDEX_SET_VALUE].pfnFunctionToHook = (FARPROC)(piDebugRegisters2->lpVtbl->SetValue);
-	ptDescriptors[HOOK_INDEX_SET_VALUE].pfnHookFunction = (FARPROC)&REGFIXHOOKS_SetValueHook;
-
-	// SetValues
-	ptDescriptors[HOOK_INDEX_SET_VALUES].pfnFunctionToHook = (FARPROC)(piDebugRegisters2->lpVtbl->SetValues);
-	ptDescriptors[HOOK_INDEX_SET_VALUES].pfnHookFunction = (FARPROC)&REGFIXHOOKS_SetValuesHook;
-
 	// GetValues2
 	ptDescriptors[HOOK_INDEX_GET_VALUES2].pfnFunctionToHook = (FARPROC)(piDebugRegisters2->lpVtbl->GetValues2);
 	ptDescriptors[HOOK_INDEX_GET_VALUES2].pfnHookFunction = (FARPROC)&REGFIXHOOKS_GetValues2Hook;
-
-	// SetValues2
-	ptDescriptors[HOOK_INDEX_SET_VALUES2].pfnFunctionToHook = (FARPROC)(piDebugRegisters2->lpVtbl->SetValues2);
-	ptDescriptors[HOOK_INDEX_SET_VALUES2].pfnHookFunction = (FARPROC)&REGFIXHOOKS_SetValues2Hook;
 }
 
 HRESULT REGFIXHELPER_Prepare(
