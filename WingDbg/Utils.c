@@ -6,7 +6,7 @@
 #include "Utils.h"
 
 
-HRESULT OutputString(
+HRESULT UTILS_OutputString(
 	_In_	IDebugClient *	piClient,
 	_In_	ULONG			nMask,
 	_In_	PCSTR			pszFormat,
@@ -46,11 +46,7 @@ lblCleanup:
 		va_end(vaArguments);
 		bArgsInitialized = FALSE;
 	}
-	if (NULL != piDebugControl)
-	{
-		(VOID)(piDebugControl->lpVtbl->Release(piDebugControl));
-		piDebugControl = NULL;
-	}
+	RELEASE_INTERFACE(piDebugControl);
 
 	return hrResult;
 }

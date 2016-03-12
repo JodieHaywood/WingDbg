@@ -3,29 +3,9 @@
 
 #include <assert.h>
 
+#include "Utils.h"
 #include "RegFixHooks.h"
 #include "RegFixHelper.h"
-
-
-//
-// Macros
-//
-
-#define HEAPALLOC(cbSize) HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, (cbSize))
-
-#define HEAPFREE(pvMemory)							\
-	if (NULL != (pvMemory))							\
-	{												\
-		HeapFree(GetProcessHeap(), 0, (pvMemory));	\
-		(pvMemory) = NULL;							\
-	}
-
-#define RELEASE_INTERFACE(piInterface)							\
-	if (NULL != (piInterface))									\
-	{															\
-		(VOID)((piInterface)->lpVtbl->Release(piInterface));	\
-		(piInterface) = NULL;									\
-	}
 
 
 //
