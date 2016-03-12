@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Exports">
+      <UniqueIdentifier>{ca8b4467-1f63-48bc-87f4-cff295cde829}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{11058101-afb0-4e8f-8196-10fdd3e4237d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Exceptions">
+      <UniqueIdentifier>{10813afc-d4d5-401d-aaf9-2f1652b8c708}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PCH">
+      <UniqueIdentifier>{faa2a103-143a-490c-ad0d-7d73c73c27d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Extensions">
+      <UniqueIdentifier>{056d14e0-94f6-4479-80cc-eb2e560d2a40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Extensions\RegFix">
+      <UniqueIdentifier>{ced99964-ddef-4213-866b-0372c5f7e4b0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Exports.cpp">
+      <Filter>Exports</Filter>
+    </ClCompile>
+    <ClCompile Include="Exceptions.cpp">
+      <Filter>Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="StdAfx.cpp">
+      <Filter>PCH</Filter>
+    </ClCompile>
+    <ClCompile Include="RegFix.cpp">
+      <Filter>Extensions\RegFix</Filter>
+    </ClCompile>
+    <ClCompile Include="RegFixHelper.c">
+      <Filter>Extensions\RegFix</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils.c">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="DbgEngGuids.c">
+      <Filter>Utils</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Exports.def">
+      <Filter>Exports</Filter>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Exceptions.hpp">
+      <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="StdAfx.hpp">
+      <Filter>PCH</Filter>
+    </ClInclude>
+    <ClInclude Include="RegFix.hpp">
+      <Filter>Extensions\RegFix</Filter>
+    </ClInclude>
+    <ClInclude Include="RegFixHelper.h">
+      <Filter>Extensions\RegFix</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

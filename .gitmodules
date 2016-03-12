@@ -1,0 +1,3 @@
+[submodule "Deviare-InProc"]
+	path = Deviare-InProc
+	url = https://github.com/nektra/Deviare-InProc.git
