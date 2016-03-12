@@ -26,8 +26,6 @@ HRESULT CALLBACK regfix(
 	_In_opt_	PCSTR			pszArgs
 	)
 {
-	UNREFERENCED_PARAMETER(pszArgs);
-
 	try
 	{
 		WingDbg::Extensions::RegFix(piClient, pszArgs);

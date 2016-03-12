@@ -33,25 +33,25 @@ FARPROC g_apfnOriginalFunctions[HOOKS_COUNT] = { NULL };
 // Typedefs
 //
 
-typedef HRESULT(__stdcall * PFN_GETVALUE)(
-	_Inout_	IDebugRegisters2 *	piThis,
+typedef HRESULT(STDMETHODCALLTYPE * PFN_GETVALUE)(
+	_In_	IDebugRegisters2 *	piThis,
 	_In_	ULONG				nRegister,
 	_Out_	PDEBUG_VALUE		ptValue
 	);
 
-typedef HRESULT(__stdcall * PFN_GETVALUES)(
-	_Inout_					IDebugRegisters2 *	piThis,
+typedef HRESULT(STDMETHODCALLTYPE * PFN_GETVALUES)(
+	_In_					IDebugRegisters2 *	piThis,
 	_In_					ULONG				nCount,
-	_In_opt_count_(nCount)	PULONG				pnIndices,
+	_In_reads_opt_(nCount)	PULONG				pnIndices,
 	_In_					ULONG				nStartIndex,
 	_Out_writes_(nCount)	PDEBUG_VALUE		ptValues
 	);
 
-typedef HRESULT(__stdcall * PFN_GETVALUES2)(
-	_Inout_					IDebugRegisters2 *	piThis,
+typedef HRESULT(STDMETHODCALLTYPE * PFN_GETVALUES2)(
+	_In_					IDebugRegisters2 *	piThis,
 	_In_					ULONG				eSource,
 	_In_					ULONG				nCount,
-	_In_opt_count_(nCount)	PULONG				pnIndices,
+	_In_reads_opt_(nCount)	PULONG				pnIndices,
 	_In_					ULONG				nStartIndex,
 	_Out_writes_(nCount)	PDEBUG_VALUE		ptValues
 	);
@@ -112,8 +112,8 @@ lblCleanup:
 	return hrResult;
 }
 
-static HRESULT __stdcall regfixhelper_GetValueHook(
-	_Inout_	IDebugRegisters2 *	piThis,
+static HRESULT STDMETHODCALLTYPE regfixhelper_GetValueHook(
+	_In_	IDebugRegisters2 *	piThis,
 	_In_	ULONG				nRegister,
 	_Out_	PDEBUG_VALUE		ptValue
 	)
@@ -147,10 +147,10 @@ static HRESULT __stdcall regfixhelper_GetValueHook(
 	return hrResult;
 }
 
-static HRESULT __stdcall regfixhelper_GetValuesHook(
-	_Inout_					IDebugRegisters2 *	piThis,
+static HRESULT STDMETHODCALLTYPE regfixhelper_GetValuesHook(
+	_In_					IDebugRegisters2 *	piThis,
 	_In_					ULONG				nCount,
-	_In_opt_count_(nCount)	PULONG				pnIndices,
+	_In_reads_opt_(nCount)	PULONG				pnIndices,
 	_In_					ULONG				nStartIndex,
 	_Out_writes_(nCount)	PDEBUG_VALUE		ptValues
 	)
@@ -184,11 +184,11 @@ static HRESULT __stdcall regfixhelper_GetValuesHook(
 	return hrResult;
 }
 
-static HRESULT __stdcall regfixhelper_GetValues2Hook(
-	_Inout_					IDebugRegisters2 *	piThis,
+static HRESULT STDMETHODCALLTYPE regfixhelper_GetValues2Hook(
+	_In_					IDebugRegisters2 *	piThis,
 	_In_					ULONG				eSource,
 	_In_					ULONG				nCount,
-	_In_opt_count_(nCount)	PULONG				pnIndices,
+	_In_reads_opt_(nCount)	PULONG				pnIndices,
 	_In_					ULONG				nStartIndex,
 	_Out_writes_(nCount)	PDEBUG_VALUE		ptValues
 	)
