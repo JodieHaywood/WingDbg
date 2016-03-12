@@ -61,7 +61,7 @@ typedef HRESULT(__stdcall * PFN_GETVALUES2)(
 // Functions
 //
 
-static HRESULT regfixhooks_HandleGet(
+static HRESULT regfixhelper_HandleGet(
 	_In_					IDebugRegisters2 *	piDebugRegisters,
 	_In_					ULONG				nCount,
 	_In_reads_opt_(nCount)	PULONG				pnIndices,
@@ -151,7 +151,7 @@ static HRESULT __stdcall regfixhelper_GetValuesHook(
 	hrResult = pfnGetValues(piThis, nCount, pnIndices, nStartIndex, ptValues);
 	if (E_INVALIDARG == hrResult)
 	{
-		if (SUCCEEDED(regfixhooks_HandleGet(piThis,
+		if (SUCCEEDED(regfixhelper_HandleGet(piThis,
 											nCount,
 											pnIndices,
 											nStartIndex,
@@ -235,7 +235,7 @@ lblCleanup:
 	return hrResult;
 }
 
-HRESULT REGFIXHELPER_Prepare(
+HRESULT REGFIXHELPER_Initialize(
 	_In_								IDebugClient *		piClient,
 	_Outptr_result_buffer_(*pnHooks)	PHOOK_DESCRIPTOR *	pptDescriptors,
 	_Out_								PDWORD				pnHooks

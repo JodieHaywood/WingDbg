@@ -1,5 +1,9 @@
 #pragma once
 
+#include <Windows.h>
+#include <DbgEng.h>
+
+
 #ifdef __cplusplus
 extern "C" {
 #if 0
@@ -8,6 +12,10 @@ extern "C" {
 #endif // __cplusplus
 
 
+//
+// Typedefs
+//
+
 typedef struct _HOOK_DESCRIPTOR
 {
 	FARPROC	pfnFunctionToHook;
@@ -15,7 +23,11 @@ typedef struct _HOOK_DESCRIPTOR
 } HOOK_DESCRIPTOR, *PHOOK_DESCRIPTOR;
 
 
-HRESULT REGFIXHELPER_Prepare(
+//
+// Functions
+//
+
+HRESULT REGFIXHELPER_Initialize(
 	_In_								IDebugClient *		piClient,
 	_Outptr_result_buffer_(*pnHooks)	PHOOK_DESCRIPTOR *	pptDescriptors,
 	_Out_								PDWORD				pnHooks

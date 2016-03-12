@@ -47,7 +47,7 @@ public:
 		// the addresses of the hook functions.
 		PHOOK_DESCRIPTOR descriptors_unsafe_ptr = nullptr;
 		DWORD number_descriptors = 0;
-		CHECK_HRESULT_AND_THROW(::REGFIXHELPER_Prepare(client, &descriptors_unsafe_ptr, &number_descriptors));
+		CHECK_HRESULT_AND_THROW(::REGFIXHELPER_Initialize(client, &descriptors_unsafe_ptr, &number_descriptors));
 		std::unique_ptr<HOOK_DESCRIPTOR[], decltype(ProcessHeapDeleter())> descriptors(descriptors_unsafe_ptr, ProcessHeapDeleter());
 
 		// Initialize the array to be passed to the hooking framework.
