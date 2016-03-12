@@ -43,7 +43,7 @@ public:
 
 		if (hooked_)
 		{
-			THROW_COM_EXCEPTION(E_UNEXPECTED);
+			BOOST_THROW_EXCEPTION(Exceptions::WingDbgException() << Exceptions::ErrorMessage("Already hooked!"));
 		}
 
 		// Initialize the low-level state and obtain
@@ -79,7 +79,7 @@ public:
 
 		if (!hooked_)
 		{
-			THROW_COM_EXCEPTION(E_UNEXPECTED);
+			BOOST_THROW_EXCEPTION(Exceptions::WingDbgException() << Exceptions::ErrorMessage("What's not hooked cannot be unhooked!"));
 		}
 
 		hook_library_.UnhookAll();
@@ -124,10 +124,20 @@ void RegFix(CComPtr<IDebugClient> client, const std::string & arguments)
 	if (vm.count("unhook"))
 	{
 		HookManager::GetInstance().Unhook();
+		(void)::UTILS_OutputString(client, DEBUG_OUTPUT_NORMAL, "The bugs are back!\n");
 		return;
 	}
 
 	HookManager::GetInstance().Hook(client, (0 != vm.count("single")));
+	(void)::UTILS_OutputString(client,
+							   DEBUG_OUTPUT_NORMAL,
+							   "\n"
+							   "Hooked into machine\n"
+							   "Hooked into machine\n"
+							   "Hooked into machine\n"
+							   "I'm hooked into, hooked into\n"
+							   "Machine\n"
+							   "\t(C) Regina Spektor, Far (2009)\n");
 }
 
 

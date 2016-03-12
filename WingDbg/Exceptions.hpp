@@ -37,6 +37,8 @@ std::string to_string(const Win32ErrorInfo & win32_error_info);
 typedef boost::error_info<struct NtErrorInfo_, NTSTATUS> NtErrorInfo;
 std::string to_string(const NtErrorInfo & nt_error_info);
 
+typedef boost::error_info<struct ErrorMessage_, const char *> ErrorMessage;
+
 struct WingDbgException : virtual boost::exception, virtual std::exception
 {
 };

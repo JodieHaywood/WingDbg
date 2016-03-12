@@ -251,7 +251,9 @@ static HRESULT regfixhelper_ObtainInterface(
 
 	if ((PVOID)(piDebugRegisters->lpVtbl) != (PVOID)(piDebugRegisters2->lpVtbl))
 	{
-		// TODO: Print warning
+		(VOID)UTILS_OutputString(piClient,
+								 DEBUG_OUTPUT_EXTENSION_WARNING,
+								 "Huh? IDebugRegisters and IDebugRegisters2 are implemented by two separate objects.\n");
 	}
 
 	// Transfer ownership:
