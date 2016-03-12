@@ -1,6 +1,6 @@
 #include "StdAfx.hpp"
 
-#include "Utils.hpp"
+#include "Utils.h"
 #include "Exceptions.hpp"
 
 #include "RegFixHelper.h"

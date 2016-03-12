@@ -171,7 +171,9 @@
     <ClCompile Include="StdAfx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)'=='Debug'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Utils.cpp" />
+    <ClCompile Include="Utils.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Exports.def" />
@@ -183,7 +185,7 @@
     <ClInclude Include="RegFixHelper.h" />
     <ClInclude Include="RegFix.hpp" />
     <ClInclude Include="StdAfx.hpp" />
-    <ClInclude Include="Utils.hpp" />
+    <ClInclude Include="Utils.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Deviare-InProc\Src\vs2015\NktHookLib.vcxproj">

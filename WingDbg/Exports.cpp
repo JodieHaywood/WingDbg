@@ -1,6 +1,6 @@
 #include "StdAfx.hpp"
 
-#include "Utils.hpp"
+#include "Utils.h"
 #include "RegFix.hpp"
 
 
@@ -34,7 +34,7 @@ HRESULT CALLBACK regfix(
 	}
 	catch (...)
 	{
-		WingDbg::Utils::OutputString(piClient, DEBUG_OUTPUT_ERROR, boost::current_exception_diagnostic_information().c_str());
+		::OutputString(piClient, DEBUG_OUTPUT_ERROR, boost::current_exception_diagnostic_information().c_str());
 		return E_FAIL;
 	}
 

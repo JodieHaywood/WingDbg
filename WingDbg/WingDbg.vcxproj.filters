@@ -24,9 +24,6 @@
     <ClCompile Include="Exports.cpp">
       <Filter>Exports</Filter>
     </ClCompile>
-    <ClCompile Include="Utils.cpp">
-      <Filter>Utils</Filter>
-    </ClCompile>
     <ClCompile Include="Exceptions.cpp">
       <Filter>Exceptions</Filter>
     </ClCompile>
@@ -42,6 +39,9 @@
     <ClCompile Include="RegFixHooks.c">
       <Filter>Extensions\RegFix</Filter>
     </ClCompile>
+    <ClCompile Include="Utils.c">
+      <Filter>Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Exports.def">
@@ -50,9 +50,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Utils.hpp">
-      <Filter>Utils</Filter>
-    </ClInclude>
     <ClInclude Include="Exceptions.hpp">
       <Filter>Exceptions</Filter>
     </ClInclude>
@@ -67,6 +64,9 @@
     </ClInclude>
     <ClInclude Include="RegFixHooks.h">
       <Filter>Extensions\RegFix</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils.h">
+      <Filter>Utils</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
