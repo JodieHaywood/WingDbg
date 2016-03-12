@@ -23,16 +23,16 @@ struct ProcessHeapDeleter
 	}
 };
 
-class RegFixGlobals final
+class HookManager final
 {
 public:
-	RegFixGlobals(const RegFixGlobals & other) = delete;
-	RegFixGlobals & operator=(const RegFixGlobals & other) = delete;
-	~RegFixGlobals() = default;
+	HookManager(const HookManager & other) = delete;
+	HookManager & operator=(const HookManager & other) = delete;
+	~HookManager() = default;
 
-	static RegFixGlobals & GetInstance()
+	static HookManager & GetInstance()
 	{
-		static RegFixGlobals instance;
+		static HookManager instance;
 
 		return instance;
 	}
@@ -63,7 +63,7 @@ public:
 		}
 
 		// I love to hook it, hook it!
-		DWORD error = hook_manager_.Hook(hooks.data(), hooks.size(), NKTHOOKLIB_DisallowReentrancy);
+		DWORD error = hook_library_.Hook(hooks.data(), hooks.size(), NKTHOOKLIB_DisallowReentrancy);
 		if (ERROR_SUCCESS != error)
 		{
 			THROW_WIN32_EXCEPTION(error);
@@ -81,19 +81,19 @@ public:
 			THROW_COM_EXCEPTION(E_UNEXPECTED);
 		}
 
-		hook_manager_.UnhookAll();
+		hook_library_.UnhookAll();
 		hooked_ = false;
 	}
 
 private:
-	RegFixGlobals() :
+	HookManager() :
 		hooked_(false)
 	{
 	}
 
 	std::mutex guard_;
 	bool hooked_;
-	CNktHookLib hook_manager_;
+	CNktHookLib hook_library_;
 };
 
 }
@@ -121,11 +121,11 @@ void RegFix(CComPtr<IDebugClient> client, const std::string & arguments)
 
 	if (vm.count("unhook"))
 	{
-		RegFixGlobals::GetInstance().Unhook();
+		HookManager::GetInstance().Unhook();
 		return;
 	}
 
-	RegFixGlobals::GetInstance().Hook(client);
+	HookManager::GetInstance().Hook(client);
 }
 
 
