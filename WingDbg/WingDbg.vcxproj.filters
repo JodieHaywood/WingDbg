@@ -36,9 +36,6 @@
     <ClCompile Include="RegFixHelper.c">
       <Filter>Extensions\RegFix</Filter>
     </ClCompile>
-    <ClCompile Include="RegFixHooks.c">
-      <Filter>Extensions\RegFix</Filter>
-    </ClCompile>
     <ClCompile Include="Utils.c">
       <Filter>Utils</Filter>
     </ClCompile>
@@ -63,9 +60,6 @@
       <Filter>Extensions\RegFix</Filter>
     </ClInclude>
     <ClInclude Include="RegFixHelper.h">
-      <Filter>Extensions\RegFix</Filter>
-    </ClInclude>
-    <ClInclude Include="RegFixHooks.h">
       <Filter>Extensions\RegFix</Filter>
     </ClInclude>
     <ClInclude Include="Utils.h">
