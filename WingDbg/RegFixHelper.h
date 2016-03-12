@@ -29,6 +29,7 @@ typedef struct _HOOK_DESCRIPTOR
 
 HRESULT REGFIXHELPER_Initialize(
 	_In_								IDebugClient *		piClient,
+	_In_								BOOL				bHookSingle,
 	_Outptr_result_buffer_(*pnHooks)	PHOOK_DESCRIPTOR *	pptDescriptors,
 	_Out_								PDWORD				pnHooks
 	);

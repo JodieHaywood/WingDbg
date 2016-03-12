@@ -121,13 +121,29 @@ static HRESULT __stdcall regfixhelper_GetValueHook(
 	HRESULT			hrResult	= E_FAIL;
 	PFN_GETVALUE	pfnGetValue	= NULL;
 
-	pfnGetValue = (PFN_GETVALUE)(g_apfnOriginalFunctions[HOOK_INDEX_GET_VALUE]);
+	// First, zero the output buffer to parse the results
+	// when the original method returns
+	SecureZeroMemory(ptValue, sizeof(*ptValue));
 
+	// Invoke the original method
+	pfnGetValue = (PFN_GETVALUE)(g_apfnOriginalFunctions[HOOK_INDEX_GET_VALUE]);
 	hrResult = pfnGetValue(piThis, nRegister, ptValue);
+	if (E_INVALIDARG == hrResult)
+	{
+		if (SUCCEEDED(regfixhelper_HandleGet(piThis,
+											 1,
+											 NULL,
+											 nRegister,
+											 ptValue)))
+		{
+			// Handled, so return success to the caller.
+			hrResult = S_OK;
+		}
+	}
 
 	// Keep last status
 
-	//lblCleanup:
+//lblCleanup:
 	return hrResult;
 }
 
@@ -164,7 +180,7 @@ static HRESULT __stdcall regfixhelper_GetValuesHook(
 
 	// Keep last status
 
-	//lblCleanup:
+//lblCleanup:
 	return hrResult;
 }
 
@@ -180,13 +196,29 @@ static HRESULT __stdcall regfixhelper_GetValues2Hook(
 	HRESULT			hrResult		= E_FAIL;
 	PFN_GETVALUES2	pfnGetValues2	= NULL;
 
-	pfnGetValues2 = (PFN_GETVALUES2)(g_apfnOriginalFunctions[HOOK_INDEX_GET_VALUES2]);
+	// First, zero the output buffer to parse the results
+	// when the original method returns
+	SecureZeroMemory(ptValues, nCount * sizeof(ptValues[0]));
 
+	// Invoke the original method
+	pfnGetValues2 = (PFN_GETVALUES2)(g_apfnOriginalFunctions[HOOK_INDEX_GET_VALUES2]);
 	hrResult = pfnGetValues2(piThis, eSource, nCount, pnIndices, nStartIndex, ptValues);
+	if (E_INVALIDARG == hrResult)
+	{
+		if (SUCCEEDED(regfixhelper_HandleGet(piThis,
+											 nCount,
+											 pnIndices,
+											 nStartIndex,
+											 ptValues)))
+		{
+			// Handled, so return success to the caller.
+			hrResult = S_OK;
+		}
+	}
 
 	// Keep last status
 
-	//lblCleanup:
+//lblCleanup:
 	return hrResult;
 }
 
@@ -237,6 +269,7 @@ lblCleanup:
 
 HRESULT REGFIXHELPER_Initialize(
 	_In_								IDebugClient *		piClient,
+	_In_								BOOL				bHookSingle,
 	_Outptr_result_buffer_(*pnHooks)	PHOOK_DESCRIPTOR *	pptDescriptors,
 	_Out_								PDWORD				pnHooks
 	)
@@ -267,9 +300,12 @@ HRESULT REGFIXHELPER_Initialize(
 	}
 
 	// GetValue
-	g_apfnOriginalFunctions[HOOK_INDEX_GET_VALUE] = (FARPROC)(piDebugRegisters2->lpVtbl->GetValue);
-	ptDescriptors[HOOK_INDEX_GET_VALUE].pfnFunctionToHook = (FARPROC)(piDebugRegisters2->lpVtbl->GetValue);
-	ptDescriptors[HOOK_INDEX_GET_VALUE].pfnHookFunction = (FARPROC)&regfixhelper_GetValueHook;
+	if (bHookSingle)
+	{
+		g_apfnOriginalFunctions[HOOK_INDEX_GET_VALUE] = (FARPROC)(piDebugRegisters2->lpVtbl->GetValue);
+		ptDescriptors[HOOK_INDEX_GET_VALUE].pfnFunctionToHook = (FARPROC)(piDebugRegisters2->lpVtbl->GetValue);
+		ptDescriptors[HOOK_INDEX_GET_VALUE].pfnHookFunction = (FARPROC)&regfixhelper_GetValueHook;
+	}
 
 	// GetValues
 	g_apfnOriginalFunctions[HOOK_INDEX_GET_VALUES] = (FARPROC)(piDebugRegisters2->lpVtbl->GetValues);
