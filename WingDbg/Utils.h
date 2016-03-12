@@ -18,19 +18,25 @@ extern "C" {
 
 #define HEAPALLOC(cbSize) HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, (cbSize))
 
-#define HEAPFREE(pvMemory)							\
-	if (NULL != (pvMemory))							\
-	{												\
-		HeapFree(GetProcessHeap(), 0, (pvMemory));	\
-		(pvMemory) = NULL;							\
-	}
+#define HEAPFREE(pvMemory)								\
+	do													\
+	{													\
+		if (NULL != (pvMemory))							\
+		{												\
+			HeapFree(GetProcessHeap(), 0, (pvMemory));	\
+			(pvMemory) = NULL;							\
+		}												\
+	} while (0)
 
-#define RELEASE_INTERFACE(piInterface)							\
-	if (NULL != (piInterface))									\
-	{															\
-		(VOID)((piInterface)->lpVtbl->Release(piInterface));	\
-		(piInterface) = NULL;									\
-	}
+#define RELEASE_INTERFACE(piInterface)								\
+	do																\
+	{																\
+		if (NULL != (piInterface))									\
+		{															\
+			(VOID)((piInterface)->lpVtbl->Release(piInterface));	\
+			(piInterface) = NULL;									\
+		}															\
+	} while (0)
 
 
 //
