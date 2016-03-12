@@ -161,6 +161,9 @@
   <ItemGroup>
     <ClCompile Include="Exceptions.cpp" />
     <ClCompile Include="Exports.cpp" />
+    <ClCompile Include="DbgEngGuids.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="RegFixHooks.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>

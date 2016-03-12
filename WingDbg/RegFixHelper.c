@@ -1,4 +1,3 @@
-#define INITGUID
 #include <Windows.h>
 #include <DbgEng.h>
 
